@@ -5,21 +5,24 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject planet;
+	public GameObject player;
     GameObject selected = null;
 
-    List<GameObject> planets = new List<GameObject>();
-    List<PlayerStat> players = new List<PlayerStat>();
+    public List<GameObject> planets = new List<GameObject>();
+    public List<GameObject> players = new List<GameObject>();
     private int playerN;
     void Awake()
     {
         playerN = 2;
 
         for(int i=0;i<playerN;i++) {
-            players.Add(new PlayerStat());
+			GameObject tmp = Instantiate(player);
+
+            players.Add(tmp);
         }
 
-        players.ToArray()[0].team = PlayerStat.TEAM.LIGHT;
-        players.ToArray()[1].team = PlayerStat.TEAM.DARK;
+        players.ToArray()[0].GetComponent<PlayerStat>().team = PlayerStat.TEAM.LIGHT;
+        players.ToArray()[1].GetComponent<PlayerStat>().team = PlayerStat.TEAM.DARK;
 
         for (int j = -2; j < 3; j++)
         {
@@ -31,10 +34,10 @@ public class GameManager : MonoBehaviour
                 tmp.name = "Planet(" + j + ", " + i + ")";
 
                 if(i==-3&&j==-2) {
-                    tmp.GetComponent<Planet>().owner = players.ToArray()[0];
+                    tmp.GetComponent<Planet>().owner = players.ToArray()[0].GetComponent<PlayerStat>();
                 }
                 if(i==3&&j==2) {
-                    tmp.GetComponent<Planet>().owner = players.ToArray()[1];
+                    tmp.GetComponent<Planet>().owner = players.ToArray()[1].GetComponent<PlayerStat>();
                 }
                 planets.Add(tmp);
             }
@@ -46,19 +49,14 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit hitinformation;
-            Physics.Raycast(new Ray(Camera.main.ScreenToViewportPoint(Input.mousePosition), Camera.main.transform.forward), out hitinformation);
+			Vector3 touch_vec = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
 
-            Debug.Log(hitinformation.collider.name);
+			Send(touch_vec);
         }
     }
 
-    void Send(Vector3 touch)
+    void Send(Vector3 touch_vec)
     {
-        Vector3 touch_vec = Camera.main.ScreenToWorldPoint(touch);
-        Debug.Log(touch_vec);
-
         GameObject[] planetsArray = planets.ToArray();
         GameObject touched_planet = null;
 
@@ -68,13 +66,12 @@ public class GameManager : MonoBehaviour
             double distance;
        
             distance = Mathf.Sqrt(Mathf.Pow(touch_vec.x - planet_vec.x, 2) + Mathf.Pow(touch_vec.z - planet_vec.z, 2));
-            if (planetsArray[i].transform.localScale.x < distance)
+            if (planetsArray[i].transform.localScale.x > distance)
                 touched_planet = planetsArray[i];
         }
 
-        Debug.Log("selected : " + selected + " touched_planet : " + touched_planet);
-
-        if (selected == null && touched_planet.GetComponent<Planet>().owner.team == PlayerStat.TEAM.LIGHT)
+		Debug.Log("selected : " + selected + " touched_planet : " + touched_planet);
+		if (selected == null && touched_planet != null && touched_planet.GetComponent<Planet>().owner != null && touched_planet.GetComponent<Planet>().owner.team == PlayerStat.TEAM.LIGHT)
         {
             selected = touched_planet;
         }
@@ -82,11 +79,11 @@ public class GameManager : MonoBehaviour
         {
             selected = null;
         }
-        else if(selected != null && touched_planet != null && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) <= 1 || Mathf.Abs(selected.transform.position.y - touched_planet.transform.position.y) <= 1))
+        else if(selected != null && touched_planet != null && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) <= 1 || Mathf.Abs(selected.transform.position.y - touched_planet.transform.position.y) <= 1)) //대각선으로도 됨
         {
             Debug.Log("Sended!");
-            selected.GetComponent<Planet>().Moving();
-            touched_planet.GetComponent<Planet>().Coming(selected.GetComponent<Planet>().owner);
+			selected.GetComponent<Planet>().Send(touched_planet); //왜 touched_planet 이 null로 들어갈까?
         }
+        Debug.Log("selected : " + selected + " touched_planet : " + touched_planet);
     }
 }
