@@ -4,54 +4,69 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    
+
     public double possesionLight;
     bool isMoving;
-    private int currentOwner;
-    PlayerStat player1;
-    PlayerStat player2;
+    public PlayerStat owner = null;
 
-    void Awake() {
-        player1 = GameObject.Find("Player1").GetComponent<PlayerStat>();
-        player2 = GameObject.Find("Player2").GetComponent<PlayerStat>();
-        currentOwner = 0;
+    void Awake()
+    {
         isMoving = false;
+
     }
 
     void Start()
     {
-     
+
     }
 
     void Update()
     {
+        if (owner != null)
+            Production();
         
     }
 
-    void Production() {
-        if(currentOwner==1) {
-            possesionLight += player1.perLightProduction;
-        }
-        if(currentOwner==2) {
+    //현재 주인의 생산량 받아와서 행성 병력 계속 증가시키는 함수
+    void Production()
+    {
 
-            possesionLight += player2.perLightProduction;
-        }
+        possesionLight += owner.perLightProduction;
     }
 
-    void Coming(int playerN, double lightSpeed) {
-        if(playerN==currentOwner) {
-            possesionLight += lightSpeed;
+    //오는 병력들 체크해서 현재 행성 안 병력 변경
+    public void Coming(PlayerStat comingOwner)
+    {
+        if(owner.team==comingOwner.team || owner.team == PlayerStat.TEAM.TEAM) {
+            possesionLight += comingOwner.lightSpeed;
+            owner.currentLight += comingOwner.lightSpeed;
         }
         else {
-            possesionLight -= lightSpeed;
+            possesionLight -= comingOwner.lightSpeed;
+            owner.currentLight -= comingOwner.lightSpeed;
+        }
+        if (possesionLight == 0)
+            changeOwner(comingOwner);
+    }
+
+    //현재 행성 안 병력이 0이 됐을 때 주인 변경
+    void changeOwner(PlayerStat comingOwner) {
+        if(owner!=null) {
+            owner = comingOwner;
+            owner.currentGold += 50;
+            //처음 먹었을 때 이펙트 추가하기
+        }
+        else {
+            owner = comingOwner;
+            owner.currentGold += 25;
+            //파괴되는 때 이펙트,점령 이펙트 추가하기
         }
     }
 
-    void Moving() {
-       if(isMoving==false) {
-           
-            //연결될 행성의 Coming(currnetOwner,lightSpeed);
-       }
+    //현재 행성 안 병력에서 가는 만큼 마이너스
+    public void Moving() {
+        if (possesionLight > 10) {//최소 10 이상일 때만 전달 가능
+            possesionLight -= owner.lightSpeed;
+        }
     }
-   
 }
