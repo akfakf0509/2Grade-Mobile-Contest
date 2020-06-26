@@ -80,11 +80,17 @@ public class GameManager : MonoBehaviour
         {
             selected = null;
         }
+        else if(selected != null && selected == touched_planet && selected.GetComponent<Planet>().sending)
+        {
+            selected.GetComponent<Planet>().StopSend();
+        }
         else if(selected != null && touched_planet != null && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) == 5 || Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z) == 5) && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) == 5) != (Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z) == 5 )) //대각선으로도 됨
         {
             Debug.Log(selected + " " + touched_planet);
             Debug.Log(Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) + " " + Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z));
 
+            if(selected.GetComponent<Planet>().sending)
+                selected.GetComponent<Planet>().StopSend();
             selected.GetComponent<Planet>().Send(touched_planet);
         }
     }
