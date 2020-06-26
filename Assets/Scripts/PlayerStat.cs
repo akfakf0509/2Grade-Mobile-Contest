@@ -12,22 +12,25 @@ public class PlayerStat : MonoBehaviour
     public double perLightProduction = 0;
     public double lightSpeed = 0;
 
-    public TEAM team = TEAM.NULL;
-    
-    void Awake() 
+    public TEAM team;
+
+    void Awake()
     {
-        
+        currentGold = 20; //기본 골드
+        perGoldProduction = 1; //기본 골드 생산량
+        perLightProduction = 1; //기본 빛 생산량
+        lightSpeed = 1; //기본 빛 전송량
+        team = TEAM.NULL;
+
+        StartCoroutine(UpdateGold());
     }
 
-    void Start()
+    IEnumerator UpdateGold()
     {
-        
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            currentGold += perGoldProduction;
+        }
     }
-    
-    void Update()
-    {
-        
-    }
-
-    
 }

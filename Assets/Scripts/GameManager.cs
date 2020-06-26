@@ -35,9 +35,11 @@ public class GameManager : MonoBehaviour
 
                 if(i==-3&&j==-2) {
                     tmp.GetComponent<Planet>().owner = players.ToArray()[0].GetComponent<PlayerStat>();
+                    tmp.GetComponent<Planet>().UpdateStats();
                 }
                 if(i==3&&j==2) {
                     tmp.GetComponent<Planet>().owner = players.ToArray()[1].GetComponent<PlayerStat>();
+                    tmp.GetComponent<Planet>().UpdateStats();
                 }
                 planets.Add(tmp);
             }
@@ -70,7 +72,6 @@ public class GameManager : MonoBehaviour
                 touched_planet = planetsArray[i];
         }
 
-		Debug.Log("selected : " + selected + " touched_planet : " + touched_planet);
 		if (selected == null && touched_planet != null && touched_planet.GetComponent<Planet>().owner != null && touched_planet.GetComponent<Planet>().owner.team == PlayerStat.TEAM.LIGHT)
         {
             selected = touched_planet;
@@ -79,11 +80,12 @@ public class GameManager : MonoBehaviour
         {
             selected = null;
         }
-        else if(selected != null && touched_planet != null && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) <= 1 || Mathf.Abs(selected.transform.position.y - touched_planet.transform.position.y) <= 1)) //대각선으로도 됨
+        else if(selected != null && touched_planet != null && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) == 5 || Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z) == 5) && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) == 5) != (Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z) == 5 )) //대각선으로도 됨
         {
-            Debug.Log("Sended!");
-			selected.GetComponent<Planet>().Send(touched_planet); //왜 touched_planet 이 null로 들어갈까?
+            Debug.Log(selected + " " + touched_planet);
+            Debug.Log(Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) + " " + Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z));
+
+            selected.GetComponent<Planet>().Send(touched_planet);
         }
-        Debug.Log("selected : " + selected + " touched_planet : " + touched_planet);
     }
 }
