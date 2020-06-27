@@ -11,8 +11,11 @@ public class PlayerStat : MonoBehaviour
     public double perGoldProduction = 0;
     public double perLightProduction = 0;
     public double lightSpeed = 0;
+    public int possesionPlanet = 1;
 
     public TEAM team;
+
+    public GameManager manager;
 
     void Awake()
     {
@@ -20,9 +23,12 @@ public class PlayerStat : MonoBehaviour
         perGoldProduction = 1; //기본 골드 생산량
         perLightProduction = 1; //기본 빛 생산량
         lightSpeed = 1; //기본 빛 전송량
+        possesionPlanet = 1;
         team = TEAM.NULL;
 
         StartCoroutine(UpdateGold());
+
+        manager = GameObject.Find("Managers").GetComponent<GameManager>();
     }
 
     IEnumerator UpdateGold()
@@ -31,6 +37,14 @@ public class PlayerStat : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             currentGold += perGoldProduction;
+        }
+    }
+
+    void gameOver()
+    {
+        if (possesionPlanet == 0)
+        {
+            manager.playerN--;
         }
     }
 }
