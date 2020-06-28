@@ -1,22 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoomCodeUI : MonoBehaviour
 {
 
     public bool isopen;
+    public InputField InputText;
 
     void Awake()
     {
         isopen = true;
+        if (gameObject.activeSelf == true)
+            Debug.Log("isActive");
     }
 
     void Start()
     {
-        gameObject.SetActive(false);
         isopen = false;
+        gameObject.SetActive(false);
+        Debug.Log("SetActive(false)");
     }
+
     public void OpenRoomCodeUI()
     {
         if (isopen == false)
@@ -45,6 +51,8 @@ public class RoomCodeUI : MonoBehaviour
         }
         
     }
+
+   
 }
 
 //룸 코드 UI

@@ -47,13 +47,10 @@ public class Server : MonoBehaviour
     public void ToServer(string st)
     {
         try
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(st);
-            int l = Encoding.Default.GetByteCount(sb.ToString());
-            byte[] d = Encoding.Default.GetBytes(sb.ToString());
-            socket.Send(Encoding.Default.GetBytes(l.ToString()), sizeof(byte), 0);
-            socket.Send(d, l, 0);
+        { 
+            int sended = socket.Send(Encoding.UTF8.GetBytes(st.Length.ToString() + "$"), 0);
+            sended = socket.Send(Encoding.Default.GetBytes(st));
+
         }
 
         catch (System.Exception e)

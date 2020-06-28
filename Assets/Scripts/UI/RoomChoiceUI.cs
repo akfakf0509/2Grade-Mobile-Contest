@@ -7,19 +7,20 @@ public class RoomChoiceUI : MonoBehaviour
 {
 
     Server server;
-    RoomCodeUI roomCodeUi;
+    RoomCodeUI roomCodeUi=null;
 
 
     void Awake()
     {
         server = GameObject.Find("MakingServer").GetComponent<Server>();
         roomCodeUi = GameObject.Find("RoomCodeUI").GetComponent<RoomCodeUI>();
+        
 
     }
 
     void Start()
     {
-        
+       
     }
 
     void Update()
@@ -34,7 +35,7 @@ public class RoomChoiceUI : MonoBehaviour
 
     public void MakingRoomOnClick()
     {
-        //방 만드는 UI 띄우기
+        //방 만드는 UI 띄우
     }
 
     public void RoomSearchOnClick()
