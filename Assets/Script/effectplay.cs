@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class effectplay : MonoBehaviour
 {
-    public ParticleSystem particle;
+     ParticleSystem particle;
     
     // Start is called before the first frame update
     void Start()
@@ -15,7 +15,7 @@ public class effectplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.Q))
         {
             particle.Play();
         }
