@@ -7,20 +7,22 @@ public class RoomCodeUI : MonoBehaviour
 {
 
     public bool isopen;
-    public InputField InputText;
+    RoomInputInfo inputcode;
+    
 
     void Awake()
     {
         isopen = true;
         if (gameObject.activeSelf == true)
             Debug.Log("isActive");
+        inputcode = GameObject.Find("roomcodeinput").GetComponent<RoomInputInfo>();
     }
 
     void Start()
     {
         isopen = false;
         gameObject.SetActive(false);
-        Debug.Log("SetActive(false)");
+        Debug.Log("roomcode UI SetActive = false");
     }
 
     public void OpenRoomCodeUI()
@@ -28,7 +30,7 @@ public class RoomCodeUI : MonoBehaviour
         if (isopen == false)
         {
             gameObject.SetActive(true);
-            Debug.Log("open this");
+            Debug.Log("open room codeUI");
             isopen = true;
         }
         else
@@ -42,7 +44,7 @@ public class RoomCodeUI : MonoBehaviour
         if (isopen == true)//||gameObject.activeSelf == true
         {
             gameObject.SetActive(false);
-            Debug.Log("close this");
+            Debug.Log("close room codeUI");
             isopen = false;
         }
         else
@@ -52,7 +54,9 @@ public class RoomCodeUI : MonoBehaviour
         
     }
 
+    public void RoomcodeEnterOnclick()
+    {
+        inputcode.SendRoomcode();
+    }
    
 }
-
-//룸 코드 UI
