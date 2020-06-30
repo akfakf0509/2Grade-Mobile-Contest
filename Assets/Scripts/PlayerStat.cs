@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
-    public enum TEAM { NULL, LIGHT, TEAM, DARK };
+    public enum TEAM { NULL,PLAYER1,PLAYER2 };
 
     public double currentGold = 0;
     public double currentLight = 0; 

@@ -5,24 +5,24 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject planet;
-	public GameObject player;
     GameObject selected = null;
 
     public List<GameObject> planets = new List<GameObject>();
-    public List<GameObject> players = new List<GameObject>();
+    //public List<GameObject> players = new List<GameObject>();
+    public PlayerStat player1;
+    public PlayerStat player2;
+
+    public int me = -1;
+    
     public int playerN;
     void Awake()
     {
         playerN = 2;
 
-        for(int i=0;i<playerN;i++) {
-			GameObject tmp = Instantiate(player);
-
-            players.Add(tmp);
-        }
-
-        players.ToArray()[0].GetComponent<PlayerStat>().team = PlayerStat.TEAM.LIGHT;
-        players.ToArray()[1].GetComponent<PlayerStat>().team = PlayerStat.TEAM.DARK;
+        player1 = GameObject.Find("Player1").GetComponent<PlayerStat>();
+        player2 = GameObject.Find("Player2").GetComponent<PlayerStat>();
+    
+        
 
         for (int j = -2; j < 3; j++)
         {
@@ -34,11 +34,11 @@ public class GameManager : MonoBehaviour
                 tmp.name = "Planet(" + j + ", " + i + ")";
 
                 if(i==-3&&j==-2) {
-                    tmp.GetComponent<Planet>().owner = players.ToArray()[0].GetComponent<PlayerStat>();
+                    tmp.GetComponent<Planet>().owner = player1;
                     tmp.GetComponent<Planet>().UpdateStats();
                 }
                 if(i==3&&j==2) {
-                    tmp.GetComponent<Planet>().owner = players.ToArray()[1].GetComponent<PlayerStat>();
+                    tmp.GetComponent<Planet>().owner = player2;
                     tmp.GetComponent<Planet>().UpdateStats();
                 }
                 planets.Add(tmp);

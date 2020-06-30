@@ -7,17 +7,14 @@ using UnityEngine.UI;
 public class WatingRoom : MonoBehaviour
 {
     Server server;
-    GameObject readyButton;
-    GameObject waitButton;
-
-    public int ReadyCount;
+  
 
     [Header("Sprite")]
-    public Sprite ready;
-    public Sprite notReady;
+    public Sprite connected;
+    public Sprite notconnected;
     [Header("Image")]
-    public Image playerReady;
-    public Image userReady;
+    public Image playerconnected;
+    public Image userconnected;
 
     
 
@@ -39,7 +36,7 @@ public class WatingRoom : MonoBehaviour
         {
             readyButton.SetActive(false);
         }
-        server.SendMessage("TO_SERVER "); // 유저 레디했다고 말하는 명령어 정해주면 
+        
     }
 
     public void OnClickWaitButton()
