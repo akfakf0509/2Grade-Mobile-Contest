@@ -5,10 +5,12 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
     public double possesionLight = 30; //현재 빛 보유량
+    public float scaleProportion;
 
     public double perLightProduction = 0; //빛 생산량
     public double lightSpeed = 0; //빛 전송량
     public PlayerStat owner = null; //행성 소유자
+    public int planetOccupationGold; //행성 점령시 주는 골드 양
 
     public double changeLight = 0; //행성이 지원/공격 받고 있는 양 + 행성이 지원/공격하고 있는 양
     public bool sending = false; //행성이 지원/공격하고 있는 여부
@@ -19,6 +21,7 @@ public class Planet : MonoBehaviour
     {
         possesionLight = 30;
         StartCoroutine(UpdatepossesionLight());
+        planetOccupationGold = 50;
     }
 
     void Update()
@@ -27,6 +30,7 @@ public class Planet : MonoBehaviour
         {
             changeOwner(); //실제 점령/파괴해주는 부분
         }
+        changeScale();
     }
 
     //현재 주인의 생산량 받아와서 행성 병력 계속 증가시키는 함수
@@ -104,13 +108,17 @@ public class Planet : MonoBehaviour
         if (owner == null)
         {
             owner = sender_tmp.GetComponent<Planet>().owner;
-            owner.currentGold += 50;
+            owner.currentGold += planetOccupationGold;
+            if (planetOccupationGold == 50)
+                planetOccupationGold /= 2; // 처음 먹은 이후로는 25골드로 바꿔주기
+            
+            owner.possesionPlanet++;
             //처음 먹었을 때 이펙트 추가하기
         }
         else
         {
+            owner.possesionPlanet--;
             owner = null;
-            sender_tmp.GetComponent<Planet>().owner.currentGold += 25;
             //파괴되는 때 이펙트,점령 이펙트 추가하기
         }
 
@@ -126,5 +134,12 @@ public class Planet : MonoBehaviour
             possesionLight += perLightProduction; //생산량 많큼 행성 빛을 추가
             possesionLight += changeLight; //지원/공격 받고 하는 양만큼 변경해줌
         }
+    }
+
+    void changeScale()
+    {
+        scaleProportion = 1 + (float)possesionLight / 300; //100개마다 2배씩 
+        if(scaleProportion<3)
+            transform.localScale = new Vector3(scaleProportion,scaleProportion,scaleProportion);
     }
 }

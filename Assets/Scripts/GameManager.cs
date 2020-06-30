@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> planets = new List<GameObject>();
     public List<GameObject> players = new List<GameObject>();
-    private int playerN;
+    public int playerN;
     void Awake()
     {
         playerN = 2;
@@ -92,6 +92,14 @@ public class GameManager : MonoBehaviour
             if(selected.GetComponent<Planet>().sending)
                 selected.GetComponent<Planet>().StopSend();
             selected.GetComponent<Planet>().Send(touched_planet);
+        }
+    }
+
+    void CheckGameOver()
+    {
+        if (playerN == 1) //살아있는 플레이어의 수가 1명이 됐을 때 게임 멈춤
+        {
+            Time.timeScale = 0;
         }
     }
 }
