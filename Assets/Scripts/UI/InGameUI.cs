@@ -46,7 +46,7 @@ public class InGameUI : MonoBehaviour
         
         while (StoreBackGround.transform.localPosition.x>0)
         {
-            StoreBackGround.transform.position = Vector3.SmoothDamp(StoreBackGround.transform.position, openposition, ref velo, 0.1f);
+            StoreBackGround.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
         }
         storeisopen = true;
     }
@@ -55,13 +55,14 @@ public class InGameUI : MonoBehaviour
     {
         while (StoreBackGround.transform.localPosition.x < 850)
         {
-            StoreBackGround.transform.position = Vector3.SmoothDamp(StoreBackGround.transform.position, closeposition, ref velo, 0.1f);
+            StoreBackGround.GetComponent<RectTransform>().anchoredPosition = new Vector3(850, 0, 0);
         }
         storeisopen = false;
     }
 
     public void StoreIconOnClick()
     {
+        Debug.Log("StoreButtonPUshed");
         if (storeisopen == true)
             StoreClose();
         else if (storeisopen == false)
