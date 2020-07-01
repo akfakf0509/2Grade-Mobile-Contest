@@ -46,7 +46,7 @@ public class WatingRoom : MonoBehaviour
     public void userisconnected() //상대방이 들어왔을때
     {
         userconnected.sprite = connected;
-        GameStart();
+        StartCoroutine(GameStart());
     }
 
     public void userisdisconnected() //상대방 연결 끊겼을때
