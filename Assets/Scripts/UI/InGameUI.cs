@@ -29,7 +29,7 @@ public class InGameUI : MonoBehaviour
 
         me = GameObject.Find("Managers").GetComponent<GameManager>().me;
 
-        StoreBackGround.transform.position = closeposition;
+        //StoreBackGround.transform.position = closeposition;
         server.LoadIngameUi();
         storeisopen = false;
 

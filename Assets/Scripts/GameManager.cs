@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviour
                     }
                     else if (me!=1)
                     {
-                        tmp.transform.GetChild(2).gameObject.SetActive(false);//null 끄기
-                        tmp.transform.GetChild(0).gameObject.SetActive(true);
+                        tmp.transform.GetChild(2).gameObject.SetActive(true);//null 끄기
+                        tmp.transform.GetChild(0).gameObject.SetActive(false);
                         tmp.transform.GetChild(1).gameObject.SetActive(false);
                     }
 
@@ -90,7 +90,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
 			Vector3 touch_vec = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
-
 			Send(touch_vec);
         }
         if (me == 1) //ui값
@@ -134,7 +133,7 @@ public class GameManager : MonoBehaviour
         {
             selected.GetComponent<Planet>().StopSend();
         }
-        else if(selected != null && touched_planet != null && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) == 5 || Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z) == 5) && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) == 5) != (Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z) == 5 )) //대각선으로도 됨
+        else if(selected != null && touched_planet != null && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) == 10 || Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z) == 10) && (Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) == 10) != (Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z) == 10)) //대각선으로도 됨
         {
             Debug.Log(selected + " " + touched_planet);
             Debug.Log(Mathf.Abs(selected.transform.position.x - touched_planet.transform.position.x) + " " + Mathf.Abs(selected.transform.position.z - touched_planet.transform.position.z));
@@ -143,6 +142,8 @@ public class GameManager : MonoBehaviour
                 selected.GetComponent<Planet>().StopSend();
             selected.GetComponent<Planet>().Send(touched_planet);
         }
+
+        Debug.Log(touched_planet + " $$ " + selected);
     }
 
     void CheckGameOver()

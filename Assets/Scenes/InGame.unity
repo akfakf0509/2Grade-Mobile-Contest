@@ -2452,7 +2452,7 @@ MonoBehaviour:
   lightSpeed: 0
   possesionPlanet: 1
   team: 0
-  me: 0
+  me: 1
   manager: {fileID: 0}
   server: {fileID: 0}
 --- !u!1 &1665473623
@@ -2658,7 +2658,7 @@ MonoBehaviour:
   lightSpeed: 0
   possesionPlanet: 1
   team: 0
-  me: 0
+  me: 2
   manager: {fileID: 0}
   server: {fileID: 0}
 --- !u!1 &1781103054
