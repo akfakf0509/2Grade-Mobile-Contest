@@ -17,11 +17,14 @@ public class Planet : MonoBehaviour
     public GameObject sendTarget = null; //행성이 지원/공격하고 있는 행성
     public GameObject sender = null; //행성이 지원/공격받고 있는 행성
 
+    GameManager manager;
+
     void Awake()
     {
         possesionLight = 30;
         StartCoroutine(UpdatepossesionLight());
         planetOccupationGold = 50;
+        manager = GameObject.Find("Managers").GetComponent<GameManager>();
     }
 
     void Update()
@@ -125,6 +128,18 @@ public class Planet : MonoBehaviour
 
         possesionLight = 5;
         UpdateStats();
+        if (manager.me == owner.me) //게임매니저의 나와 행성의 주인이 같을때
+        {
+            gameObject.transform.GetChild(2).gameObject.SetActive(false);//null 끄기
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            
+        }
+        else if (manager.me!=owner.me){
+            gameObject.transform.GetChild(2).gameObject.SetActive(false);//null 끄기
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        }
     }
 
     IEnumerator UpdatepossesionLight()

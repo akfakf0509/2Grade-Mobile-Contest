@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 public class Server : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Server : MonoBehaviour
     RoomInputInfo roominfo;
     WatingRoom watingroom;
 
-    string ipAdress = "192.168.43.121";
+    string ipAdress = "3.34.179.89";
     int port = 4578;
 
     string recv_buf = "";
@@ -121,18 +122,21 @@ public class Server : MonoBehaviour
                     {
                         if (megs.Length > 3)
                         {
-                            GameObject.Find("UI").GetComponent<WatingRoom>().roomcode.text = megs[3];
+                            SceneManager.LoadScene(5);
+                            
                             if (megs.Length > 4 && megs[4] == "1")
                             {
                                 //Player1을 connected로 바꾸고, 씬 옮겨주기
                                 roominfo.IntoWatingRoom();
                                 watingroom.playerisconnected();
+                                GameObject.Find("UI").GetComponent<WatingRoom>().roomcode.text = megs[3];
                             }
                             else if (megs.Length > 4 && megs[4] == "2")
                             {
                                 //player2를 connected로 바꾸고, 씬 옮겨주기
                                 roominfo.IntoWatingRoom();
                                 watingroom.userisconnected();
+                                GameObject.Find("UI").GetComponent<WatingRoom>().roomcode.text = megs[3];
                             }
                         }
                     }

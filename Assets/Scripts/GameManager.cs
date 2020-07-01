@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     //public List<GameObject> players = new List<GameObject>();
     public PlayerStat player1;
     public PlayerStat player2;
+    
 
     public Text GoldText;
     public Text LightText;
@@ -35,16 +36,46 @@ public class GameManager : MonoBehaviour
             {
                 GameObject tmp = Instantiate(planet);
 
-                tmp.transform.position = new Vector3(i * 5, 0, j * 5);
+                tmp.transform.position = new Vector3(i * 30, 0, j * 30);
                 tmp.name = "Planet(" + j + ", " + i + ")";
 
                 if(i==-3&&j==-2) {
                     tmp.GetComponent<Planet>().owner = player1;
                     tmp.GetComponent<Planet>().UpdateStats();
+
+                    if (me == 1) //게임매니저의 나와 행성의 주인이 같을때
+                    {
+                        tmp.transform.GetChild(2).gameObject.SetActive(false);//null 끄기
+                        tmp.transform.GetChild(0).gameObject.SetActive(false);
+                        tmp.transform.GetChild(1).gameObject.SetActive(true);
+
+                    }
+                    else if (me!=1)
+                    {
+                        tmp.transform.GetChild(2).gameObject.SetActive(false);//null 끄기
+                        tmp.transform.GetChild(0).gameObject.SetActive(true);
+                        tmp.transform.GetChild(1).gameObject.SetActive(false);
+                    }
+
                 }
                 if(i==3&&j==2) {
                     tmp.GetComponent<Planet>().owner = player2;
                     tmp.GetComponent<Planet>().UpdateStats();
+
+                    if (me == 2) //게임매니저의 나와 행성의 주인이 같을때
+                    {
+                        tmp.transform.GetChild(2).gameObject.SetActive(false);//null 끄기
+                        tmp.transform.GetChild(0).gameObject.SetActive(false);
+                        tmp.transform.GetChild(1).gameObject.SetActive(true);
+
+                    }
+                    else if (me != 2)
+                    {
+                        tmp.transform.GetChild(2).gameObject.SetActive(false);//null 끄기
+                        tmp.transform.GetChild(0).gameObject.SetActive(true);
+                        tmp.transform.GetChild(1).gameObject.SetActive(false);
+                    }
+
                 }
                 planets.Add(tmp);
             }

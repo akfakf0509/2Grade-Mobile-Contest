@@ -133,6 +133,7 @@ public class PlayerStat : MonoBehaviour
     public void ToLobbyOnClick()
     {
         SceneManager.LoadScene(1); //방 찾는 곳으로 씬 이동
+        server.ToServer("TO_SERVER ROOM FINISH");
         server.ToServer("TO_SERVER ROOM LEAVE");
     }
 }

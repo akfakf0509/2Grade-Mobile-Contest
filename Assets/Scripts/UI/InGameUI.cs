@@ -78,7 +78,7 @@ public class InGameUI : MonoBehaviour
 
     public void GoldUpgradeBuy()
     {
-        server.SendMessage("TO_SERVER GAME UPGRADE GOLD " + me); //서버에 업그레이드 한 플레이어랑 정보 전송
+        server.ToServer("TO_SERVER GAME UPGRADE GOLD " + me); //서버에 업그레이드 한 플레이어랑 정보 전송
         if (me == 1)
         {
             player1.perGoldProduction += 0.5; //자신 스탯 올려주기
@@ -94,7 +94,7 @@ public class InGameUI : MonoBehaviour
 
     public void LightUpgradeBuy()
     {
-        server.SendMessage("TO_SERVER GAME UPGRADE LIGHT " + me);
+        server.ToServer("TO_SERVER GAME UPGRADE LIGHT " + me);
         if (me == 1)
         {
             player1.perLightProduction += 0.5;
@@ -107,14 +107,14 @@ public class InGameUI : MonoBehaviour
 
     public void LightSpeedBuy()
     {
-        server.SendMessage("TO_SERVER GAME UPGRADE SPEED " + me);
+        server.ToServer("TO_SERVER GAME UPGRADE SPEED " + me);
         if (me == 1)
             player1.lightSpeed += 0.5;
         else if(me==2)
             player2.lightSpeed += 0.5;
     }
 
-    public void EnemyGoldUpgrade(int n)
+    public void EnemyGoldUpgrade(int n) //적이 골드 업그레이드
     {
         if (n == 1)
             player1.perGoldProduction += 0.5;
@@ -122,7 +122,7 @@ public class InGameUI : MonoBehaviour
             player2.perGoldProduction += 0.5;
     }
 
-    public void EnemyLightUpgrade(int n)
+    public void EnemyLightUpgrade(int n) //적이 생산량 업그레이드
     {
         if (n == 1)
             player1.perLightProduction += 0.5;
@@ -130,7 +130,7 @@ public class InGameUI : MonoBehaviour
             player2.perLightProduction += 0.5;
     }
 
-    public void EnemySpeedUpgrade(int n)
+    public void EnemySpeedUpgrade(int n) //적이 스피트 업그레이드
     {
         if (n == 1)
             player1.lightSpeed += 0.5;

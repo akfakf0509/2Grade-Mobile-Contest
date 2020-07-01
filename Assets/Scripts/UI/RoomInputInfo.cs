@@ -38,15 +38,15 @@ public class RoomInputInfo : MonoBehaviour
 
     public void SendRoomcode()
     {
-        server.SendMessage("TO_SERVER JOIN ROOM_ID " + roomcode.text); //들어가려는 룸 코드 서버에 전송
-        roomCodeUi.CloseRoomCodeUI(); //엔터 누르면 창 닫힘
+        server.ToServer("TO_SERVER ROOM JOIN ROOM_ID 0"); //들어가려는 룸 코드 서버에 전송
+        //roomCodeUi.CloseRoomCodeUI(); //엔터 누르면 창 닫힘
         roomcode = null; //룸 코드 초기화
         
     }
 
     public void IntoWatingRoom() //서버에서 방이 존재한다고 말했을 때
     {
-        SceneManager.LoadScene(5); //대기방으로 씬 옮김
+        
     }
 
     public IEnumerator CannotFindRoom() //방이 존재하지 않을 때
@@ -76,13 +76,13 @@ public class RoomInputInfo : MonoBehaviour
         }
     }
 
-    public void SendRoomMakeInfo()
+    public void OnClickMakeRoomEnter()
     {
         
         if (privateCheckBox.sprite==isChecked)
-            server.SendMessage("TO_SERVER JOIN CREATE TRUE"); //비공개 
+            server.ToServer("TO_SERVER ROOM JOIN CREATE TRUE"); //비공개 
         else if(privateCheckBox.sprite ==isnotChecked)
-            server.SendMessage("TO_SERVER JOIN CREATE FALSE"); //공개
+            server.ToServer("TO_SERVER ROOM JOIN CREATE FALSE"); //공개
 
 
         SceneManager.LoadScene(5); //서버에 비공개여부 전송하고 대기방으로 씬 이동

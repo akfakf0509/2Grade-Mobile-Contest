@@ -7,22 +7,24 @@ public class RoomChoiceUI : MonoBehaviour
 {
 
     Server server;
-    RoomCodeUI roomCodeUi=null;
-    RoomMakingUI roomMakingUi = null;
+    public RoomCodeUI roomCodeUi=null;
+    public RoomMakingUI roomMakingUi = null;
 
 
     void Awake()
     {
         server = GameObject.Find("MakingServer").GetComponent<Server>();
-        roomCodeUi = GameObject.Find("RoomChoice").GetComponent<RoomCodeUI>();
-        roomMakingUi = GameObject.Find("RoomChoice").GetComponent<RoomMakingUI>();
+        //roomCodeUi = GameObject.Find("RoomChoice").GetComponent<RoomCodeUI>();
+        //roomMakingUi = GameObject.Find("RoomChoice").GetComponent<RoomMakingUI>();
 
 
     }
 
     public void MatchingOnClick()
     {
-        server.ToServer("TO_SERVER JOIN AUTO");
+
+        server.ToServer("TO_SERVER ROOM JOIN AUTO");
+        SceneManager.LoadScene(5); //대기방으로 씬 옮김
     }
 
     public void MakingRoomOnClick()
@@ -30,6 +32,7 @@ public class RoomChoiceUI : MonoBehaviour
         //방 만드는 UI 띄우기
         roomMakingUi.OpenRoomMakingUI();
         Debug.Log("open roommaking UI");
+
     }
 
     public void RoomSearchOnClick()

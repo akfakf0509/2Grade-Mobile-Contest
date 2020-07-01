@@ -7,7 +7,8 @@ public class RoomCodeUI : MonoBehaviour
 {
 
     public bool isopen;
-    RoomInputInfo inputcode;
+    public RoomInputInfo inputcode;
+
     
 
     void Awake()
@@ -15,7 +16,7 @@ public class RoomCodeUI : MonoBehaviour
         isopen = true;
         if (gameObject.activeSelf == true)
             Debug.Log("isActive");
-        inputcode = GameObject.Find("roomcodeinput").GetComponent<RoomInputInfo>();
+        
     }
 
     void Start()
@@ -32,6 +33,7 @@ public class RoomCodeUI : MonoBehaviour
             gameObject.SetActive(true);
             Debug.Log("open room codeUI");
             isopen = true;
+            inputcode = GameObject.Find("RoomInputInfo").GetComponent<RoomInputInfo>();
         }
         else
         {

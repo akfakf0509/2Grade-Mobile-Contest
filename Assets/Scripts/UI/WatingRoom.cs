@@ -25,27 +25,38 @@ public class WatingRoom : MonoBehaviour
         server = GameObject.Find("MakingServer").GetComponent<Server>();
         server.LoadWatingroom();
         playerisconnected();
-        roomcode.text = "";
     }
 
     public void playerisconnected()
     {
         playerconnected.sprite = connected;
+
     }
 
-    public void userisconnected()
+    IEnumerator GameStart()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(3);
+            server.ToServer("TO_SERVER ROOM START");
+            SceneManager.LoadScene(2);
+        }
+    }
+
+    public void userisconnected() //상대방이 들어왔을때
     {
         userconnected.sprite = connected;
+        GameStart();
     }
 
-    public void userisdisconnected()
+    public void userisdisconnected() //상대방 연결 끊겼을때
     {
         userconnected.sprite = notconnected;
     }
 
     public void OnClickBackButton()
     {
-        server.SendMessage("TO_SERVER ROOM LEAVE");
+        server.ToServer("TO_SERVER ROOM LEAVE");
         SceneManager.LoadScene(1);
     }
 
