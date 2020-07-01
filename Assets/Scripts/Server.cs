@@ -56,6 +56,8 @@ public class Server : MonoBehaviour
         {
             string[] megs = recv_buf.Split(' ');
 
+            Debug.Log(recv_buf);
+
             if(megs.Length > 0 && megs[0] == "TO_CLIENT")
             {
                 if(megs.Length > 1 && megs[1] == "GAME") //게임 관련 이벤트
@@ -105,17 +107,20 @@ public class Server : MonoBehaviour
                 }
                 else if (megs.Length > 1 && megs[1] == "ROOM") //방 관련 이벤트
                 {
-                    if(megs.Length>2 && megs[2] == "UPDATE")
+                    if (megs.Length > 2 && megs[2] == "UPDATE")
                     {
                         if(megs.Length > 3 && megs[3] == "1")
                         {
                             //player를 not connected로 바꾸기
-                            watingroom.userisdisconnected();
+                            //watingroom.userisdisconnected();
                             
                         }
-                        else if (megs.Length > 3 && megs[3] == "2"){
+                        else if (megs.Length > 3 && megs[3][0] == '2')
+                        {
                             //Player2를 conected로 바꾸기
-                            watingroom.userisconnected();
+                            //watingroom.userisconnected();
+                            ToServer("TO_SERVER ROOM START");
+                            SceneManager.LoadScene(2);
                         }
                     }
                     else if (megs.Length > 2 && megs[2] == "CONNECT")
@@ -135,8 +140,11 @@ public class Server : MonoBehaviour
                             {
                                 //player2를 connected로 바꾸고, 씬 옮겨주기
                                 roominfo.IntoWatingRoom();
+                                ToServer("TO_SERVER ROOM START");
+                                SceneManager.LoadScene(2);
                                 watingroom.userisconnected();
                                 GameObject.Find("UI").GetComponent<WatingRoom>().roomcode.text = megs[3];
+                                
                             }
                         }
                     }

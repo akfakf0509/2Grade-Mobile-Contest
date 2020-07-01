@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class WatingRoom : MonoBehaviour
 {
     Server server;
-  
+
 
     [Header("Sprite")]
     public Sprite connected;
@@ -18,7 +18,7 @@ public class WatingRoom : MonoBehaviour
     [Header("RoomCodeText")]
     public Text roomcode;
 
-    
+
 
     void Awake()
     {
@@ -35,17 +35,15 @@ public class WatingRoom : MonoBehaviour
 
     IEnumerator GameStart()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(3);
-            server.ToServer("TO_SERVER ROOM START");
-            SceneManager.LoadScene(2);
-        }
+        yield return new WaitForSeconds(3);
+        server.ToServer("TO_SERVER ROOM START");
+        SceneManager.LoadScene(2);
     }
 
     public void userisconnected() //상대방이 들어왔을때
     {
         userconnected.sprite = connected;
+        Debug.Log("GameStart");
         StartCoroutine(GameStart());
     }
 
