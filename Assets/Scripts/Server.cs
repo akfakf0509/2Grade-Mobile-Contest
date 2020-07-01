@@ -13,19 +13,14 @@ public class Server : MonoBehaviour
     RoomInputInfo roominfo;
     WatingRoom watingroom;
 
-    string ipAdress = "13.125.249.44";
+    string ipAdress = "192.168.43.121";
     int port = 4578;
 
-    string recv_buf;
+    string recv_buf = "";
 
     void Awake()
     {
-       
-       
-
         DontDestroyOnLoad(gameObject);
-        Thread thread = new Thread(FromServer);
-        thread.Start();
     }
 
     void Start()
@@ -49,6 +44,9 @@ public class Server : MonoBehaviour
 
             return;
         }
+
+        Thread thread = new Thread(FromServer);
+        thread.Start();
     }
 
     void Update()
@@ -121,17 +119,21 @@ public class Server : MonoBehaviour
                     }
                     else if (megs.Length > 2 && megs[2] == "CONNECT")
                     {
-                        if(megs.Length > 3 && megs[3] == "1")
+                        if (megs.Length > 3)
                         {
-                            //Player1을 connected로 바꾸고, 씬 옮겨주기
-                            roominfo.IntoWatingRoom();
-                            watingroom.playerisconnected();
-                        }
-                        else if(megs.Length >3 && megs[3] == "2")
-                        {
-                            //player2를 connected로 바꾸고, 씬 옮겨주기
-                            roominfo.IntoWatingRoom();
-                            watingroom.userisconnected();
+                            GameObject.Find("UI").GetComponent<WatingRoom>().roomcode.text = megs[3];
+                            if (megs.Length > 4 && megs[4] == "1")
+                            {
+                                //Player1을 connected로 바꾸고, 씬 옮겨주기
+                                roominfo.IntoWatingRoom();
+                                watingroom.playerisconnected();
+                            }
+                            else if (megs.Length > 4 && megs[4] == "2")
+                            {
+                                //player2를 connected로 바꾸고, 씬 옮겨주기
+                                roominfo.IntoWatingRoom();
+                                watingroom.userisconnected();
+                            }
                         }
                     }
                     else if (megs.Length > 2 && megs[2] == "FULL")
