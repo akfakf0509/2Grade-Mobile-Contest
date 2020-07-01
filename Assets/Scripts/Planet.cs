@@ -69,8 +69,8 @@ public class Planet : MonoBehaviour
             changeLight -= lightSpeed;
             sending = true;
             sendTarget = target; //지원/공격 중으로 설정
-
-            if (target.GetComponent<Planet>().owner != null && (target.GetComponent<Planet>().owner.team == PlayerStat.TEAM.LIGHT || target.GetComponent<Planet>().owner.team == PlayerStat.TEAM.TEAM))
+            //--------------------------------------------------------------------이 아래부분------------------------------------------------------------
+            if (target.GetComponent<Planet>().owner != null && (target.GetComponent<Planet>().owner.me == owner.me )) //보내는 행성의 주인이 자신이고 현재 행성의 주인도 자신일 때
             {
                 target.GetComponent<Planet>().changeLight += lightSpeed;
             }
@@ -85,11 +85,12 @@ public class Planet : MonoBehaviour
     //전송을 멈춤
     public void StopSend()
     {
-        if (sendTarget.GetComponent<Planet>().owner != null && (sendTarget.GetComponent<Planet>().owner.team == PlayerStat.TEAM.LIGHT || sendTarget.GetComponent<Planet>().owner.team == PlayerStat.TEAM.TEAM))
+        //---------------------------------------------------------------------------이것도-------------------------------------------------------------------------------
+        if (sendTarget.GetComponent<Planet>().owner != null && (sendTarget.GetComponent<Planet>().owner.me == owner.me)) //보내는 행성의 주인이 자신이었을대
         {
             sendTarget.GetComponent<Planet>().changeLight -= lightSpeed;
         }
-        else
+        else //아닐때
         {
             sendTarget.GetComponent<Planet>().changeLight += lightSpeed;
         }

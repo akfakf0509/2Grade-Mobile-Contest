@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoomMakingUI : MonoBehaviour
 {
     public bool isopen;
-    public bool isprivate;
+
     RoomInputInfo inputRoomMaking;
     
     void Awake()
@@ -13,7 +13,7 @@ public class RoomMakingUI : MonoBehaviour
         isopen = true;
         if (gameObject.activeSelf == true)
             Debug.Log("RoomNameInfoUI isActive");
-        inputRoomMaking = GameObject.Find("roomnameinput").GetComponent<RoomInputInfo>();
+        inputRoomMaking = GameObject.Find("RoomInputInfo").GetComponent<RoomInputInfo>();
     }
 
     void Start()
@@ -51,8 +51,7 @@ public class RoomMakingUI : MonoBehaviour
         }
     }
 
-    public void RoomMakingEnterOnClick() //서버에 방 비공개 여부 전송 버튼 눌릴 때
-    {
-        inputRoomMaking.SendRoomMakeInfo(isprivate);
-    }
+    
+
+    
 }

@@ -11,6 +11,7 @@ public class Server : MonoBehaviour
     Socket socket;
     InGameUI ingame;
     RoomInputInfo roominfo;
+    WatingRoom watingroom;
 
     string ipAdress = "13.125.249.44";
     int port = 4578;
@@ -19,8 +20,8 @@ public class Server : MonoBehaviour
 
     void Awake()
     {
-        ingame = GameObject.Find("InGameUI").GetComponent<InGameUI>();
-        roominfo = GameObject.Find("RoomInputInfo").GetComponent<RoomInputInfo>();
+       
+       
 
         DontDestroyOnLoad(gameObject);
         Thread thread = new Thread(FromServer);
@@ -109,10 +110,13 @@ public class Server : MonoBehaviour
                     {
                         if(megs.Length > 3 && megs[3] == "1")
                         {
-                            //Player1을 not connected로 바꾸기
+                            //player를 not connected로 바꾸기
+                            watingroom.userisdisconnected();
+                            
                         }
                         else if (megs.Length > 3 && megs[3] == "2"){
                             //Player2를 conected로 바꾸기
+                            watingroom.userisconnected();
                         }
                     }
                     else if (megs.Length > 2 && megs[2] == "CONNECT")
@@ -121,11 +125,13 @@ public class Server : MonoBehaviour
                         {
                             //Player1을 connected로 바꾸고, 씬 옮겨주기
                             roominfo.IntoWatingRoom();
+                            watingroom.playerisconnected();
                         }
                         else if(megs.Length >3 && megs[3] == "2")
                         {
                             //player2를 connected로 바꾸고, 씬 옮겨주기
                             roominfo.IntoWatingRoom();
+                            watingroom.userisconnected();
                         }
                     }
                     else if (megs.Length > 2 && megs[2] == "FULL")
@@ -198,4 +204,19 @@ public class Server : MonoBehaviour
         socket = null;
     }
 
+    public void LoadIngameUi()
+    {
+       
+        ingame = GameObject.Find("InGameUI").GetComponent<InGameUI>();
+    }
+
+    public void Loadroominfo()
+    {
+        roominfo = GameObject.Find("RoomInputInfo").GetComponent<RoomInputInfo>();
+    }
+
+    public void LoadWatingroom()
+    {
+        watingroom = GameObject.Find("UI").GetComponent<WatingRoom>();
+    }
 }

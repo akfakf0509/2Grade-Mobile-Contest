@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,12 +13,16 @@ public class GameManager : MonoBehaviour
     public PlayerStat player1;
     public PlayerStat player2;
 
+    public Text GoldText;
+    public Text LightText;
+    public Text SpeedText;
+
     public int me = -1;
     
     public int playerN;
     void Awake()
     {
-        playerN = 2;
+   
 
         player1 = GameObject.Find("Player1").GetComponent<PlayerStat>();
         player2 = GameObject.Find("Player2").GetComponent<PlayerStat>();
@@ -44,6 +49,8 @@ public class GameManager : MonoBehaviour
                 planets.Add(tmp);
             }
         }
+
+      
     }
 
 
@@ -54,6 +61,18 @@ public class GameManager : MonoBehaviour
 			Vector3 touch_vec = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
 
 			Send(touch_vec);
+        }
+        if (me == 1) //ui값
+        {
+            GoldText.text = ""+player1.currentGold;
+            LightText.text = "" + player1.perLightProduction;
+            SpeedText.text = "" + player1.lightSpeed;
+        }
+        else if (me == 2)
+        {
+            GoldText.text = "" + player2.currentGold;
+            LightText.text = "" + player2.perLightProduction;
+            SpeedText.text = "" + player2.lightSpeed;
         }
     }
 
@@ -72,7 +91,7 @@ public class GameManager : MonoBehaviour
                 touched_planet = planetsArray[i];
         }
 
-		if (selected == null && touched_planet != null && touched_planet.GetComponent<Planet>().owner != null && touched_planet.GetComponent<Planet>().owner.team == PlayerStat.TEAM.LIGHT)
+		if (selected == null && touched_planet != null && touched_planet.GetComponent<Planet>().owner != null && touched_planet.GetComponent<Planet>().owner.me == me) //자신의 플레이어 번호와 같을 때
         {
             selected = touched_planet;
         }

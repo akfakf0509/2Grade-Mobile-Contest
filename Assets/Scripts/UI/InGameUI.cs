@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
 {
     public GameObject Store;
     public GameObject System;
+    public GameObject StoreBackGround;
+
+
 
     Server server;
 
-    private RectTransform rectTransform;
 
     PlayerStat player1;
     PlayerStat player2;
@@ -26,14 +29,45 @@ public class InGameUI : MonoBehaviour
 
         me = GameObject.Find("Managers").GetComponent<GameManager>().me;
 
+        StoreBackGround.transform.position = closeposition;
+        server.LoadIngameUi();
+        storeisopen = false;
 
+        
+    }
+
+    //store 위치값들
+    Vector3 openposition = new Vector3(0, 0, 0);
+    Vector3 closeposition = new Vector3(850, 0, 0);
+    Vector3 velo = Vector3.zero;
+
+    void StoreOpen() //상점 열림
+    {
+        
+        while (StoreBackGround.transform.localPosition.x>0)
+        {
+            StoreBackGround.transform.position = Vector3.SmoothDamp(StoreBackGround.transform.position, openposition, ref velo, 0.1f);
+        }
+        storeisopen = true;
+    }
+
+    void StoreClose() //상점 닫힘
+    {
+        while (StoreBackGround.transform.localPosition.x < 850)
+        {
+            StoreBackGround.transform.position = Vector3.SmoothDamp(StoreBackGround.transform.position, closeposition, ref velo, 0.1f);
+        }
         storeisopen = false;
     }
 
     public void StoreIconOnClick()
     {
-        storeisopen = true; //스토어 열림 
-                            //스토어 열려있는 상태면 x에 +850 아니면 -850
+        if (storeisopen == true)
+            StoreClose();
+        else if (storeisopen == false)
+            StoreOpen();
+    
+    //스토어 열려있는 상태면 x에 +850 아니면 -850
 
     }
 
@@ -48,6 +82,7 @@ public class InGameUI : MonoBehaviour
         if (me == 1)
         {
             player1.perGoldProduction += 0.5; //자신 스탯 올려주기
+            
         }
         else if(me == 2)
         {

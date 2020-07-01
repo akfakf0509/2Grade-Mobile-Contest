@@ -15,57 +15,39 @@ public class WatingRoom : MonoBehaviour
     [Header("Image")]
     public Image playerconnected;
     public Image userconnected;
+    [Header("RoomCodeText")]
+    public Text roomcode;
 
     
 
     void Awake()
     {
         server = GameObject.Find("MakingServer").GetComponent<Server>();
-
-        readyButton = GameObject.Find("ReadyButton");
-        waitButton = GameObject.Find("WaitButton");
-
-        ReadyCount = 0;
-
+        server.LoadWatingroom();
+        playerisconnected();
+        roomcode.text = "";
     }
 
-    public void OnClickReadyButton()
+    public void playerisconnected()
     {
-        playerReady.sprite = ready;
-        if (readyButton.activeSelf)
-        {
-            readyButton.SetActive(false);
-        }
-        
+        playerconnected.sprite = connected;
     }
 
-    public void OnClickWaitButton()
+    public void userisconnected()
     {
-        playerReady.sprite = notReady;
-        server.SendMessage("TO_SERVER ");
+        userconnected.sprite = connected;
     }
 
-    public void UserReady() //서버에서 상대방이 레디했으면 
+    public void userisdisconnected()
     {
-        userReady.sprite = ready;
+        userconnected.sprite = notconnected;
     }
 
-    public void UserWait() //서버에서 상대방이 레디 취소했으면 
-    {
-        userReady.sprite = notReady;
-    }
-    
     public void OnClickBackButton()
     {
-        LeaveRoom(); //방 떠나게 하는 함수 실행
-    }
-
-    void LeaveRoom()
-    {
         server.SendMessage("TO_SERVER ROOM LEAVE");
-        SceneManager.LoadScene(1); //룸 씬으로 옮기기
+        SceneManager.LoadScene(1);
     }
 
-    
 
 }
